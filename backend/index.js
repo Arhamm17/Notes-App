@@ -1,44 +1,51 @@
-import express from "express"
-import mongoose from "mongoose"
-import dotenv from "dotenv"
-import cookieParser from "cookie-parser"
-import cors from "cors"
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
-dotenv.config()
+// Load environment variables
+dotenv.config();
 
-mongoose.connect(process.env.MONGO_URI).then(() => {
-    console.log("Connected to mongoDB")
+// Initialize Express app
+const app = express();
+
+// Middleware (should be before routes)
+app.use(express.json()); // Parse JSON body
+app.use(cookieParser()); // Parse cookies
+app.use(cors({
+  origin: ["http://localhost:5173"], // Your frontend port
+  credentials: true,
+}));
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ Connected to MongoDB");
+    app.listen(3000, () => {
+      console.log("🚀 Server is running on port 3000");
+    });
   })
   .catch((err) => {
-    console.log(err)
-  })
+    console.error("❌ MongoDB connection error:", err);
+  });
 
-const app = express()
+// Import routes
+import authRouter from "./routes/auth.route.js";
+import noteRouter from "./routes/note.route.js";
 
-// to make input as json
-app.use(express.json())
-app.use(cookieParser())
-app.use(cors({ origin: ["http://localhost:5173"], credentials: true }))
+// Register routes
+app.use("/api/auth", authRouter);
+app.use("/api/note", noteRouter);
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000")
-})
-
-// import routes
-import authRouter from "./routes/auth.route.js"
-import noteRouter from "./routes/note.route.js"
-
-app.use("/api/auth", authRouter)
-app.use("/api/note", noteRouter)
-
-// error handling
+// Global error handler (keep at the bottom)
 app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500
-  const message = err.message || "Internal Serer Error"
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error"; // fixed typo
 
   return res.status(statusCode).json({
     success: false,
     statusCode,
     message,
-  })
-})
+  });
+});
