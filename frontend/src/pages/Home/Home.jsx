@@ -138,11 +138,11 @@ const Home = () => {
 
   return (
     <>
-      <Navbar
+      {/* <Navbar
         userInfo={userInfo}
         onSearchNote={onSearchNote}
         handleClearSearch={handleClearSearch}
-      />
+      /> */}
 
       <div className="container mx-auto">
         {allNotes.length > 0 ? (
