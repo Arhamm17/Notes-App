@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+import UserProfile from "../models/profile.model.js";
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -22,6 +23,19 @@ export const signup = async (req, res, next) => {
     });
 
     await newUser.save();
+    
+ try {
+    await UserProfile.create({
+      userId: newUser._id,
+      email: newUser.email,
+      fullName: newUser.username,
+      phoneNumber: null,
+      bio: "",
+    });
+  } catch (profileErr) {
+    return next(errorHandler(500, "User created but profile creation failed"));
+  }
+
 
     res.status(201).json({
       success: true,
@@ -66,7 +80,9 @@ export const signin = async (req, res, next) => {
         success: true,
         message: "Login successful",
         user: userData,
+        
       });
+      
   } catch (error) {
     next(error);
   }

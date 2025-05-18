@@ -12,6 +12,7 @@ export const verifyToken = (req, res, next) => {
     if (err) {
       return next(errorHandler(403, "Forbidden"))
     }
+  console.log("Decoded user from token:", user);  // <--- Add this line to debug
 
     req.user = user
     next()

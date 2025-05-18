@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import userProfileRoutes from "./routes/profile.route.js"
 
 // Load environment variables
 dotenv.config();
@@ -17,6 +18,8 @@ app.use(cors({
   origin: ["http://localhost:5173"], // Your frontend port
   credentials: true,
 }));
+
+app.use("/api/profile", userProfileRoutes)
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)

@@ -1,12 +1,73 @@
+.tesseract-ocr-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .upload-section {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .upload-section input {
+    padding: 8px;
+  }
+  
+  .upload-section button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .upload-section button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .progress-container {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .progress-container progress {
+    flex-grow: 1;
+  }
+  
+  .results-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .image-preview {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .text-result textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+
+/* TesseractOCR.css */
+
 :root {
-  --primary-color: #6b4f8c;
-  /* Warm purple */
-  --secondary-color: #5a3e6d;
-  /* Muted plum */
-  --accent-color: #4a857f;
-  /* Soft teal */
-  --light-color: #d6d3c2;
-  /* Dark ivory */
+  --primary-color: #4361ee;
+  --secondary-color: #3f37c9;
+  --accent-color: #4895ef;
+  --light-color: #f8f9fa;
   --dark-color: #212529;
   --success-color: #4bb543;
   --error-color: #ff3333;
@@ -15,35 +76,15 @@
   --transition: all 0.3s ease;
 }
 
-/* Center only the OCR container */
-html,
-body {
-  height: 100%;
-  margin: 0;
-  background-color: var(--light-color);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 60px);
-  /* Adjust depending on navbar height */
-  padding: 2rem 1rem;
-}
-
 .tesseract-ocr-container {
   max-width: 1000px;
-  width: 90vw;
-  max-height: 90vh;
-  overflow-y: auto;
   margin: 0 auto;
   padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--dark-color);
+  background-color: white;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
-  color: var(--dark-color);
-  background-color: var(--light-color);
 }
 
 .ocr-header {
@@ -58,7 +99,7 @@ main {
 }
 
 .ocr-header p {
-  color: #444;
+  color: #666;
   font-size: 1.1rem;
 }
 
@@ -138,10 +179,9 @@ main {
 
 .language-selector select {
   padding: 0.6rem;
-  border: 1px solid #aaa;
+  border: 1px solid #ddd;
   border-radius: var(--border-radius);
-  background-color: #f0f0e8;
-  color: var(--dark-color);
+  background-color: white;
 }
 
 .extract-btn {
@@ -159,7 +199,7 @@ main {
 }
 
 .extract-btn:disabled {
-  background-color: #aaa;
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
@@ -177,9 +217,7 @@ main {
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 .error-message {
@@ -209,7 +247,6 @@ main {
   overflow: hidden;
   box-shadow: var(--box-shadow);
   height: 100%;
-  background-color: #e1decf;
 }
 
 .preview-image {
@@ -217,7 +254,7 @@ main {
   height: 100%;
   object-fit: contain;
   max-height: 400px;
-  background-color: #d6d3c2;
+  background-color: #f5f5f5;
 }
 
 .image-overlay {
@@ -277,14 +314,13 @@ textarea {
   height: 100%;
   min-height: 300px;
   padding: 1rem;
-  border: 1px solid #aaa;
+  border: 1px solid #ddd;
   border-radius: var(--border-radius);
   resize: none;
   font-family: inherit;
   font-size: 0.95rem;
   line-height: 1.5;
-  background-color: #f0f0e8;
-  color: var(--dark-color);
+  background-color: var(--light-color);
 }
 
 .loading-placeholder {
@@ -295,11 +331,10 @@ textarea {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #f0f0e8;
+  background-color: var(--light-color);
   border-radius: var(--border-radius);
   padding: 2rem;
   text-align: center;
-  color: var(--dark-color);
 }
 
 .progress-bar {
@@ -313,7 +348,7 @@ textarea {
 .ocr-footer {
   text-align: center;
   margin-top: 2rem;
-  color: #444;
+  color: #666;
   font-size: 0.9rem;
 }
 
@@ -330,7 +365,7 @@ textarea {
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;
-  -webkit-font-feature-settings: 'liga';
+  /* -webkit-font-feature-settings: 'liga'; */
   -webkit-font-smoothing: antialiased;
 }
 
@@ -339,15 +374,13 @@ textarea {
   .ocr-results {
     grid-template-columns: 1fr;
   }
-
+  
   .ocr-controls {
     flex-direction: column;
     align-items: stretch;
   }
-
-  .file-upload-wrapper,
-  .language-selector,
-  .extract-btn {
+  
+  .file-upload-wrapper, .language-selector, .extract-btn {
     width: 100%;
   }
 }
